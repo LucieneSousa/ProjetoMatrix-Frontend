@@ -115,3 +115,16 @@ QUnit.module( "Informações sobre notas dos Participantes", function() {
     assert.equal( resultado, 80, "média dos participantes");    
   });
 });
+
+//Ele testa se a nota inserida foi gravada no objeto corretamente
+QUnit.module( "Teste para adicionar nota", function() {
+  var sistema = new SistemaCadastro();
+    sistema.adicionarParticipante("João", "Mendes", "jmendes@matrix.com", 56, 1);
+    sistema.adicionarNotaAoParticipante("jmendes@matrix.com", 90);
+  
+  QUnit.test( "obter nota", function( assert ) {
+
+    var resultado = sistema.obterParticipante("jmendes@matrix.com");
+    assert.equal( resultado.nota, 90, "notas iguais");    
+  });
+});
