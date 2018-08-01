@@ -47,7 +47,6 @@ QUnit.module( "Gerenciar Participantes", function() {
     sistema.adicionarNotaAoParticipante("rmendes@matrix.com", 80);
 
     var resultado = sistema.verificarSeParticipanteEstaAprovado("rmendes@matrix.com");
-        
     sistema.removerParticipante("rmendes@matrix.com");
     assert.ok( resultado, "Aprovado");    
   });
