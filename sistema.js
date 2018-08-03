@@ -49,48 +49,34 @@ function SistemaCadastro() {
 
     function buscarParticipantesPorNome(nome) {
         //implemente o código necessário
-        var participantesPorNome = [];
-        participantes.forEach(function (element, index) {
-            if (participantes[index].nome === nome) {
-                participantesPorNome.push(participantes[index]);
-            }
-        })
-
-        return participantesPorNome;
+        function participantePorNome(participantes) {
+            return participantes.nome === nome;
+        }
+        return participantes.filter(participantePorNome);
     }
 
     function buscarParticipantesPorSexo(sexo) {
         //implemente o código necessário
-        var participantesPorSexo = [];
-        participantes.forEach(function (element, index) {
-            if (participantes[index].sexo === sexo) {
-                participantesPorSexo.push(participantes[index]);
-            }
-        })
-        return participantesPorSexo;
+        function participantesPorSexo(participantes) {
+            return participantes.sexo === sexo;
+        }
+        return participantes.filter(participantesPorSexo);
     }
 
     function buscarParticipantesAprovados() {
         //implemente o código necessário
-        var participanteAprovado = [];
-        participantes.forEach(function (element, index) {
-            if (participantes[index].aprovado === true) {
-                participanteAprovado.push(participantes[index]);
-            }
-        })
-        return participanteAprovado;
+        function participanteAprovado(participantes) {
+            return participantes.aprovado === true
+        }
+        return participantes.filter(participanteAprovado);
     }
 
     function buscarParticipantesReprovados() {
         //implemente o código necessário
-        var participanteReprovado = [];
-        participantes.forEach(function (element, index) {
-            if (participantes[index].aprovado === false) {
-                participanteReprovado.push(participantes[index]);
-            }
-        })
-
-        return participanteReprovado;
+        function participanteReprovado(participantes){
+            return participantes.aprovado === false
+        }
+        return participantes.filter(participanteReprovado);
 
     }
 
@@ -112,7 +98,7 @@ function SistemaCadastro() {
         var participanteEncontrado = participantes.find(function (element, index) {
             if (participantes[index].email === email) {
                 return participantes[index].email === email;
-            } 
+            }
         });
         participanteEncontrado.nota = nota;
         if (participanteEncontrado.nota >= 70) {
@@ -124,14 +110,13 @@ function SistemaCadastro() {
 
     function obterMediaDasNotasDosParticipantes() {
         //implemente o código necessário
-
-        var quantidadeDeParticipantes = participantes.length;
-        var MediaDosParticipantes = participantes.reduce(function (somatorio, element, index) {
-            return somatorio = somatorio + participantes[index].nota;
+        var totalDeParticipantes = participantes.length;
+        var MediaDosParticipantes = participantes.reduce(function (somatorioDasNotas, element, index) {
+            return somatorioDasNotas = somatorioDasNotas + participantes[index].nota;
         }, 0);
 
-        var media = MediaDosParticipantes / quantidadeDeParticipantes;
-        return media;
+        var resultado = MediaDosParticipantes / totalDeParticipantes;
+        return resultado;
     }
 
     function obterTotalDeParticipantes() {
@@ -164,12 +149,12 @@ function SistemaCadastro() {
 
     function adicionarParticipanteEmDuplicidade(email) {
         var participantesPorEmail = null;
-        participantes.forEach(function(element,index){
+        participantes.forEach(function (element, index) {
             if (participantes[index].email === email) {
                 participantesPorEmail = participantes[index];
             }
         })
-       
+
         return participantesPorEmail;
     }
 
