@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Controle de Participantes - Projeto Matrix 3</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+    <!--script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script-->
+</head>
+
+<body onload="listarResultado()">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <nav class="navbar navbar-expand-lg navbar-light bg-dark">
+                    <h2 class="navbar-brand" style="color: #fff">Controle de Participantes - Projeto Matrix 3</h2>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <form>
+                    <div class="form-group row">
+                        <label for="nomeInserido" class="col-sm-2 col-form-label">Nome</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="nomeInserido" required>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="sobrenomeInserido" class="col-sm-2 col-form-label">Sobrenome</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="sobrenomeInserido" required>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="emailInserido" class="col-sm-2 col-form-label">Email</label>
+                        <div class="col-sm-8">
+                            <input type="email" class="form-control" id="emailInserido" required>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="idadeInserida" class="col-sm-2 col-form-label">Idade</label>
+                        <div class="col-sm-8">
+                            <input type="number" class="form-control" id="idadeInserida" required>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="notaInserida" class="col-sm-2 col-form-label">Nota</label>
+                        <div class="col-sm-8">
+                            <input type="number" class="form-control" id="notaInserida" required>
+                        </div>
+                    </div>
+                    <fieldset class="form-group">
+                        <div class="row">
+                            <legend class="col-form-label col-sm-2 pt-0">Sexo</legend>
+                            <div class="col-sm-8">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="feminino" value="option1">
+                                    <label class="form-check-label" for="inlineRadio1">Feminino</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="masculino" value="option2">
+                                    <label class="form-check-label" for="inlineRadio2">Masculino</label>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <div class="form-group row">
+                        <div class="col-sm-8">
+                            <button type="submit" class="btn btn-primary" id="btn-salvar" onclick="cadastrar(event)">Salvar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <!--table class="table">
+                    <thead class="thead-light">
+                        <tr>
+                            <th scope="col">Nome</th>
+                            <th scope="col">Sobrenome</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Idade</th>
+                            <th scope="col">Sexo</th>
+                            <th scope="col">Nota</th>
+                            <th scope="col">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+  
+                    </tbody>
+                </table-->
+
+                <div id="showData"></div>
+            </div>
+        </div>
+    </div>
+
+  
+<script src="armazenamento.js"></script>
+<script src="sistema.js"></script>
+<script src="participantes.js"></script>
+
+<script>
+ 
+</script>
+</body>
+
+</html>

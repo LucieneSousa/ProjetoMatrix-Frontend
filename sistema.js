@@ -1,3 +1,5 @@
+var armazenamento = new Armazenamento();
+
 //Objeto Participante
 function Participante() {
     this.nome = "";
@@ -19,6 +21,9 @@ function SistemaCadastro() {
     var participantes = [];
 
     function adicionarParticipante(nome, sobrenome, email, idade, sexo) {
+
+        console.log('array=', participantes);
+
         //implemente o código necessário
         var p = new Participante();
         p.nome = nome;
@@ -33,8 +38,8 @@ function SistemaCadastro() {
             throw "Participante com email duplicado";
         }
 
-        participantes.push(p);
-
+        participantes.push(p);   
+        armazenamento.adicionar(p);
     }
 
     function removerParticipante(email) {
@@ -80,32 +85,16 @@ function SistemaCadastro() {
 
     }
 
+    function buscarParticipantes(){
+        return armazenamento.todos();
+    }
+
     function obterParticipante(email) {
-        //implemente o código necessário
-        var participantesPorEmail = null;
-        participantes.forEach(function (element, index) {
-            if (participantes[index].email === email) {
-                participantesPorEmail = participantes[index];
-            }
-        })
-
-        return participantesPorEmail;
-
+        return armazenamento.obter(email);
     }
 
     function adicionarNotaAoParticipante(email, nota) {
-        //implemente o código necessário
-        var participanteEncontrado = participantes.find(function (element, index) {
-            if (participantes[index].email === email) {
-                return participantes[index].email === email;
-            }
-        });
-        participanteEncontrado.nota = nota;
-        if (participanteEncontrado.nota >= 70) {
-            participanteEncontrado.aprovado = true;
-        } else {
-            participanteEncontrado.aprovado = false;
-        }
+        armazenamento.adicionarNotaAoParticipante(email,nota);
     }
 
     function obterMediaDasNotasDosParticipantes() {
@@ -171,6 +160,7 @@ function SistemaCadastro() {
         obterTotalDeParticipantes,
         verificarSeParticipanteEstaAprovado,
         obterQuantidadeDeParticipantesPorSexo,
-        adicionarParticipanteEmDuplicidade
+        adicionarParticipanteEmDuplicidade,
+        buscarParticipantes
     };
 }
