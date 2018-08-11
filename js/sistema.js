@@ -22,8 +22,6 @@ function SistemaCadastro() {
 
     function adicionarParticipante(nome, sobrenome, email, idade, sexo) {
 
-        console.log('array=', participantes);
-
         //implemente o código necessário
         var p = new Participante();
         p.nome = nome;
@@ -35,7 +33,7 @@ function SistemaCadastro() {
         var participanteDuplicado = obterParticipante(email);
 
         if (participanteDuplicado) {
-            throw "Participante com email duplicado";
+            throw new Error ("Participante com email duplicado");
         }
 
         participantes.push(p);   
@@ -43,13 +41,7 @@ function SistemaCadastro() {
     }
 
     function removerParticipante(email) {
-
-        var participantesRemovidos = participantes.filter(function (element, index) {
-            if (participantes[index].email === email) {
-                return false;
-            }
-        });
-        participantes = participantesRemovidos;
+        armazenamento.remover(email);
     }
 
     function buscarParticipantesPorNome(nome) {

@@ -59,10 +59,28 @@ function Armazenamento() {
         adicionarParticipantes(participantes);
     }
 
+    function remover(email) {
+        var participantes = recuperaParticipantesSalvo();
+        var participantesRemovidos = participantes.filter(function (element, index) {
+            if (participantes[index].email === email) {
+                return false;
+            }
+            return true;
+        });
+ 
+        participantes = participantesRemovidos;
+
+        adicionarParticipantes(participantes);
+    }
+
+   
+
     return {
         adicionar,
         obter,
         adicionarNotaAoParticipante,
         todos,
+        remover
+        
     };
 }
