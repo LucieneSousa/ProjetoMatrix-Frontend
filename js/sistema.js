@@ -1,4 +1,4 @@
-var armazenamento = new Armazenamento();
+var armazenamentoHttp = new armazenamentoHttp();
 
 //Objeto Participante
 function Participante() {
@@ -35,17 +35,19 @@ function SistemaCadastro() {
         if (participanteDuplicado) {
             throw new Error ("Participante com email duplicado");
         }
+        
 
-        participantes.push(p);   
-        armazenamento.adicionar(p);
+        armazenamentoHttp.adicionar(p);
+        
     }
 
     function removerParticipante(email) {
-        armazenamento.remover(email);
+        armazenamentoHttp.remover(email);
     }
 
     function buscarParticipantesPorNome(nome) {
         //implemente o código necessário
+        armazenamento.obterParticipantePorNome(nome);
         function participantePorNome(participantes) {
             return participantes.nome === nome;
         }
@@ -78,15 +80,15 @@ function SistemaCadastro() {
     }
 
     function buscarParticipantes(){
-        return armazenamento.todos();
+        return armazenamentoHttp.todos();
     }
 
     function obterParticipante(email) {
-        return armazenamento.obter(email);
+        return armazenamentoHttp.obter(email);
     }
 
     function adicionarNotaAoParticipante(email, nota) {
-        armazenamento.adicionarNotaAoParticipante(email,nota);
+        armazenamentoHttp.adicionarNotaAoParticipante(email,nota);
     }
 
     function obterMediaDasNotasDosParticipantes() {

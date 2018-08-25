@@ -3,12 +3,12 @@ var sistema = new SistemaCadastro();
 function sexoEscolhido() {
     var sexo = '';
 
-    if (document.getElementById("feminino").checked) {
-        sexo = "feminino";
+    if (document.getElementById("1").checked) {
+        sexo = "1";
     } 
 
-    if (document.getElementById("masculino").checked){
-        sexo = "masculino";
+    if (document.getElementById("2").checked){
+        sexo = "2";
     }
     
     return sexo;
@@ -28,13 +28,13 @@ function sexoEscolhidoEditar() {
     return sexo;
 }
 
-function cadastrar() {
+function cadastrar(event) {event.preventDefault();
 
-    var nome = document.querySelector('#nomeInserido').value;
-    var sobrenome = document.querySelector('#sobrenomeInserido').value;
-    var email = document.querySelector('#emailInserido').value;
-    var idade = document.querySelector('#idadeInserida').value;
-    var nota = document.querySelector('#notaInserida').value;
+    var nome = document.querySelector('#nome').value;
+    var sobrenome = document.querySelector('#sobrenome').value;
+    var email = document.querySelector('#email').value;
+    var idade = document.querySelector('#idade').value;
+    var nota = document.querySelector('#nota').value;
     var sexo = sexoEscolhido();
 
     sistema.adicionarParticipante(nome, sobrenome, email, idade, sexo);
@@ -44,7 +44,9 @@ function cadastrar() {
 }
 
 function todosParticipantes(){
-    return sistema.buscarParticipantes();
+    
+    var valores = sistema.buscarParticipantes();
+    return valores;
 }
 
 

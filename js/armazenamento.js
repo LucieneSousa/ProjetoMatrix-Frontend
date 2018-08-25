@@ -1,7 +1,7 @@
 function Armazenamento() {
 
     function recuperaParticipantesSalvo(){
-        var array_participantes_string = localStorage.getItem("participantes");
+        var array_participantes_string = localStorage.getItem("participantes");//vai pegar o array de participantes
 
         var array_participantes = JSON.parse(array_participantes_string);
 
@@ -41,8 +41,15 @@ function Armazenamento() {
         return participantesPorEmail;
     }
 
+    function obterParticipantePorNome(participantes){
+        function participantePorNome(participantes) {
+            return participantes.nome === nome;
+        }
+        return participantes.filter(participantePorNome);
+    }
     
     function adicionarNotaAoParticipante(email, nota) {
+        console.log("entrou na funcao");
         var participantes = recuperaParticipantesSalvo();
         var participanteEncontrado = participantes.find(function (element, index) {
             if (participantes[index].email === email) {
@@ -58,7 +65,7 @@ function Armazenamento() {
 
         adicionarParticipantes(participantes);
     }
-
+    
     function remover(email) {
         var participantes = recuperaParticipantesSalvo();
         var participantesRemovidos = participantes.filter(function (element, index) {
@@ -78,7 +85,7 @@ function Armazenamento() {
     return {
         adicionar,
         obter,
-        adicionarNotaAoParticipante,
+        adicionarNotaAoParticipante,        
         todos,
         remover
         
