@@ -4,6 +4,7 @@ function armazenamentoHttp() {
         console.log("PARTICIPANTE ARMAZENAMENTOHTTP", participante);
         var arrayJSON = JSON.stringify(participante);
         console.log("PARTICIPANTE ARMAZENAMENTOHTTP", arrayJSON);
+        var participanteSalvo = undefined;
 		$.ajax({
 			type: "POST",
 			url: 'http://matrix.avalie.net/api/participantes/',
@@ -11,10 +12,15 @@ function armazenamentoHttp() {
 			dataType: "json",
 			data: arrayJSON,
             async: false,
+            success: function(data){
+				participanteSalvo = data;
+			},
             error: function(data){
-                console.log("data", data.responseText);
+                console.log("data err", data.responseText);
             }
-		});	
+        });	
+        
+        return participanteSalvo;
     }
     
     function todos(){
@@ -32,10 +38,8 @@ function armazenamentoHttp() {
     }
 
     function atualizar(participante){
-        console.log("atualizar ARMAZENAMENTOHTTP", participante);
         var arrayJSON = JSON.stringify(participante);
-        console.log("atualizar ARMAZENAMENTOHTTP", arrayJSON);
-		$.ajax({
+        $.ajax({
 			type: "PUT",
 			url: 'http://matrix.avalie.net/api/participantes/' + participante.id,
 			contentType: "application/json; charset=utf-8",
@@ -44,35 +48,33 @@ function armazenamentoHttp() {
             async: false,
 		});	
     }
-
-     
-    function adicionarNotaAoParticipante(email, nota) {
-        var participantes = todos();
-        var participanteEncontrado = participantes.find(function (element, index) {
-            if (participantes[index].email === email) {
-                return participantes[index].email === email;
-            }
-        });
-        participanteEncontrado.nota = nota;
-        if (participanteEncontrado.nota >= 70) {
-            participanteEncontrado.aprovado = true;
-        } else {
-            participanteEncontrado.aprovado = false;
-        }
-
-        atualizar(participanteEncontrado);
-    }
+  
     
-    function obter(email){
-        var participantes = todos();
+    function obter(id){
+        var json = undefined;
+		$.ajax({
+			type: "GET",
+			url: 'http://matrix.avalie.net/api/participantes/' + id,
+			dataType: "json",
+			async: false,
+			success: function(data){
+				json = data;
+			}
+		});
+		return json;
+    }
 
-        var participantesPorEmail = null;
-        participantes.forEach(function (element, index) {
-            if (participantes[index].email === email) {
-                participantesPorEmail = participantes[index];
+    function remover(id){        
+		$.ajax({
+			type: "DELETE",
+			url: 'http://matrix.avalie.net/api/participantes/' + id,
+			dataType: "json",
+			async: false,
+			error: function(data){
+                console.log("data err", data.responseText);
             }
-        })
-        return participantesPorEmail;
+		});
+		
     }
     
     
@@ -80,10 +82,8 @@ function armazenamentoHttp() {
     return {
         todos,
         adicionar,
-        adicionarNotaAoParticipante,
         atualizar,
-        obter
+        obter,
+        remover
     };
 }
-
-

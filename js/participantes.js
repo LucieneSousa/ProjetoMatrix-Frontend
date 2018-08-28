@@ -28,7 +28,8 @@ function sexoEscolhidoEditar() {
     return sexo;
 }
 
-function cadastrar(event) {event.preventDefault();
+function cadastrar(event) {
+    event.preventDefault();
 
     var nome = document.querySelector('#nome').value;
     var sobrenome = document.querySelector('#sobrenome').value;
@@ -37,8 +38,8 @@ function cadastrar(event) {event.preventDefault();
     var nota = document.querySelector('#nota').value;
     var sexo = sexoEscolhido();
 
-    sistema.adicionarParticipante(nome, sobrenome, email, idade, sexo);
-    sistema.adicionarNotaAoParticipante(email, nota);
+    var participante = sistema.adicionarParticipante(nome, sobrenome, email, idade, sexo);
+    sistema.adicionarNotaAoParticipante(participante.id, nota);
 
     montarTabela();
 }
@@ -87,6 +88,7 @@ function editar(){
 
 function remover(event){
     var email = event.target.id;
+    console.log("ggg", event.target.id);
     sistema.removerParticipante(email);
     montarTabela();
 }
@@ -144,14 +146,14 @@ function montarTabela() {
         var celulaDaTabela = tr.insertCell(-1);
         celulaDaTabela.innerHTML = 'Editar';
         celulaDaTabela.onclick = abrirEditar;
-        celulaDaTabela.id = todos[contador][coluna[2]];
+        celulaDaTabela.id = todos[contador][coluna[0]];
         celulaDaTabela.style = 'cursor:pointer; text-decoration:underline';
         
 
         var celulaDaTabela = tr.insertCell(-1);
         celulaDaTabela.innerHTML = 'Excluir';
         celulaDaTabela.onclick = remover;
-        celulaDaTabela.id = todos[contador][coluna[2]];
+        celulaDaTabela.id = todos[contador][coluna[0]];
         celulaDaTabela.style = 'cursor:pointer; text-decoration:underline';
     }
 

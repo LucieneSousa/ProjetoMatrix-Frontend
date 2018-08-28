@@ -2,6 +2,7 @@ var armazenamentoHttp = new armazenamentoHttp();
 
 //Objeto Participante
 function Participante() {
+    this.id=0;
     this.nome = "";
     this.sobrenome = "";
     this.email = "";
@@ -37,12 +38,12 @@ function SistemaCadastro() {
         }
         
 
-        armazenamentoHttp.adicionar(p);
+        return armazenamentoHttp.adicionar(p);
         
     }
 
-    function removerParticipante(email) {
-        armazenamentoHttp.remover(email);
+    function removerParticipante(id) {
+        armazenamentoHttp.remover(id);
     }
 
     function buscarParticipantesPorNome(nome) {
@@ -83,12 +84,24 @@ function SistemaCadastro() {
         return armazenamentoHttp.todos();
     }
 
-    function obterParticipante(email) {
-        return armazenamentoHttp.obter(email);
+    
+    function obterParticipante(id) {
+        return armazenamentoHttp.obter(id);
     }
 
-    function adicionarNotaAoParticipante(email, nota) {
-        armazenamentoHttp.adicionarNotaAoParticipante(email,nota);
+    //passar o id
+    function adicionarNotaAoParticipante(id, nota) {
+		 
+        var participante = armazenamentoHttp.obter(id);        
+        participante.nota = nota;
+        if (participante.nota >= 70) {
+            participante.aprovado = true;
+        } else {
+            participante.aprovado = false;
+        }        
+        armazenamentoHttp.atualizar(participante);
+
+        return;
     }
 
     function obterMediaDasNotasDosParticipantes() {
