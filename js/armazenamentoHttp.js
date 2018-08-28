@@ -1,9 +1,7 @@
 function armazenamentoHttp() {
 
     function adicionar(participante){
-        console.log("PARTICIPANTE ARMAZENAMENTOHTTP", participante);
         var arrayJSON = JSON.stringify(participante);
-        console.log("PARTICIPANTE ARMAZENAMENTOHTTP", arrayJSON);
         var participanteSalvo = undefined;
 		$.ajax({
 			type: "POST",

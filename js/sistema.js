@@ -104,6 +104,19 @@ function SistemaCadastro() {
         return;
     }
 
+    function editarParticipante(id, nome, sobrenome, email, idade, nota, sexo){
+        var participante = {};
+        participante.id = id;
+        participante.nome = nome;
+        participante.sobrenome = sobrenome;
+        participante.email = email;
+        participante.idade = idade;
+        participante.nota = nota;
+        participante.sexo = sexo;
+        return armazenamentoHttp.atualizar(participante);
+
+    }
+
     function obterMediaDasNotasDosParticipantes() {
         //implemente o código necessário
         var totalDeParticipantes = participantes.length;
@@ -168,6 +181,7 @@ function SistemaCadastro() {
         verificarSeParticipanteEstaAprovado,
         obterQuantidadeDeParticipantesPorSexo,
         adicionarParticipanteEmDuplicidade,
-        buscarParticipantes
+        buscarParticipantes,
+        editarParticipante
     };
 }

@@ -17,12 +17,12 @@ function sexoEscolhido() {
 function sexoEscolhidoEditar() {
     var sexo = '';
 
-    if (document.getElementById("femininoParaEditar").checked) {
-        sexo = "feminino";
+    if (document.getElementById("1").checked) {
+        sexo = "1";
     } 
 
-    if (document.getElementById("masculinoParaEditar").checked){
-        sexo = "masculino";
+    if (document.getElementById("2").checked){
+        sexo = "2";
     }
     
     return sexo;
@@ -54,16 +54,18 @@ function todosParticipantes(){
 function abrirEditar(event){
     var email = event.target.id;
     var participante = sistema.obterParticipante(email);
-    document.querySelector('#nomeParaEditar').value = participante.nome;
-    document.querySelector('#sobrenomeParaEditar').value = participante.sobrenome;
-    document.querySelector('#emailParaEditar').value = participante.email;
-    document.querySelector('#idadeParaEditar').value = participante.idade;
-    document.querySelector('#notaParaEditar').value = participante.nota;
-    if(participante.sexo === 'masculino'){
-        sexo = document.querySelector('#masculinoParaEditar')
+    document.querySelector('#idEditar').value = participante.id;
+    document.querySelector('#nomeEditar').value = participante.nome;
+    document.querySelector('#sobrenomeEditar').value = participante.sobrenome;
+    document.querySelector('#emailEditar').value = participante.email;
+    document.querySelector('#idadeEditar').value = participante.idade;
+    document.querySelector('#notaEditar').value = participante.nota;
+    
+    if(participante.sexo === 2){
+        sexo = document.querySelector('#masc')
         sexo.checked = true;
-    } else if(participante.sexo === 'feminino'){
-        sexo = document.querySelector('#femininoParaEditar')
+    } else if(participante.sexo === 1){
+        sexo = document.querySelector('#fem')
         sexo.checked = true;
     }
     
@@ -71,16 +73,15 @@ function abrirEditar(event){
 }
 
 function editar(){
-    var nome = document.querySelector('#nomeParaEditar').value;
-    var sobrenome = document.querySelector('#sobrenomeParaEditar').value;
-    var email = document.querySelector('#emailParaEditar').value;
-    var idade = document.querySelector('#idadeParaEditar').value;
-    var nota = document.querySelector('#notaParaEditar').value;
+    var id =  document.querySelector('#idEditar').value; 
+    var nome = document.querySelector('#nomeEditar').value;
+    var sobrenome = document.querySelector('#sobrenomeEditar').value;
+    var email = document.querySelector('#emailEditar').value;
+    var idade = document.querySelector('#idadeEditar').value;
+    var nota = document.querySelector('#notaEditar').value;
     var sexo = sexoEscolhidoEditar();
 
-    sistema.removerParticipante(email);
-    sistema.adicionarParticipante(nome, sobrenome, email, idade, sexo);
-    sistema.adicionarNotaAoParticipante(email, nota);
+    sistema.editarParticipante(id, nome, sobrenome, email, idade, nota, sexo);
 
     montarTabela();
     $('#myModal').modal('hide');
@@ -88,7 +89,6 @@ function editar(){
 
 function remover(event){
     var email = event.target.id;
-    console.log("ggg", event.target.id);
     sistema.removerParticipante(email);
     montarTabela();
 }

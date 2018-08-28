@@ -102,33 +102,39 @@
         <div class="modal-body">
             <form>
                 <div class="form-group row">
+                    <label for="id" class="col-sm-2 col-form-label">Id</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="idEditar" disabled>
+                    </div>
+                </div>
+                <div class="form-group row">
                     <label for="nomeInserido" class="col-sm-2 col-form-label">Nome</label>
                     <div class="col-sm-8">
-                        <input type="text" class="form-control" id="nomeParaEditar" required>
+                        <input type="text" class="form-control" id="nomeEditar" required>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="sobrenomeInserido" class="col-sm-2 col-form-label">Sobrenome</label>
                     <div class="col-sm-8">
-                        <input type="text" class="form-control" id="sobrenomeParaEditar" required>
+                        <input type="text" class="form-control" id="sobrenomeEditar" required>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="emailInserido" class="col-sm-2 col-form-label">Email</label>
                     <div class="col-sm-8">
-                        <input type="email" class="form-control" id="emailParaEditar" disabled>
+                        <input type="email" class="form-control" id="emailEditar" disabled>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="idadeInserida" class="col-sm-2 col-form-label">Idade</label>
                     <div class="col-sm-8">
-                        <input type="number" class="form-control" id="idadeParaEditar" required>
+                        <input type="number" class="form-control" id="idadeEditar" required>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="notaInserida" class="col-sm-2 col-form-label">Nota</label>
                     <div class="col-sm-8">
-                        <input type="number" class="form-control" id="notaParaEditar" required>
+                        <input type="number" class="form-control" id="notaEditar" required>
                     </div>
                 </div>
                 <fieldset class="form-group">
@@ -136,11 +142,11 @@
                         <legend class="col-form-label col-sm-2 pt-0">Sexo</legend>
                         <div class="col-sm-8">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="femininoParaEditar" value="option1">
+                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="fem" value="option1">
                                 <label class="form-check-label" for="inlineRadio1">Feminino</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="masculinoParaEditar" value="option2">
+                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="masc" value="option2">
                                 <label class="form-check-label" for="inlineRadio2">Masculino</label>
                             </div>
                         </div>

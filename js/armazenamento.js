@@ -1,7 +1,7 @@
 function Armazenamento() {
 
     function recuperaParticipantesSalvo(){
-        var array_participantes_string = localStorage.getItem("participantes");//vai pegar o array de participantes
+        var array_participantes_string = localStorage.getItem("participantes");
 
         var array_participantes = JSON.parse(array_participantes_string);
 
