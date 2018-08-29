@@ -21,7 +21,7 @@ function armazenamentoHttp() {
         return participanteSalvo;
     }
     
-    function todos(){
+  /*  function todos(){
 		var arrayJSON = [];
 		$.ajax({
 			type: "GET",
@@ -33,8 +33,19 @@ function armazenamentoHttp() {
 			}
 		});
 		return arrayJSON;
-    }
+    }*/
 
+	function todos(){
+		return axios.get('http://matrix.avalie.net/api/participantes/')
+			.then(res => {
+				return res.data;
+			})
+			.catch(err => {
+				throw err.response.data.message; 
+			});
+
+	}
+	
     function atualizar(participante){
         var arrayJSON = JSON.stringify(participante);
         $.ajax({
@@ -62,7 +73,7 @@ function armazenamentoHttp() {
 		return json;
     }
 
-    function remover(id){        
+    /*function remover(id){        
 		$.ajax({
 			type: "DELETE",
 			url: 'http://matrix.avalie.net/api/participantes/' + id,
@@ -73,8 +84,12 @@ function armazenamentoHttp() {
             }
 		});
 		
-    }
+    }*/
     
+	function remover(id){
+		console.log("entrou no axios baby");
+		return axios.delete('http://matrix.avalie.net/api/participantes/'+id);	
+	}
     
 
     return {

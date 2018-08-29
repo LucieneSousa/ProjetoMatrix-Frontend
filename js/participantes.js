@@ -46,8 +46,10 @@ function cadastrar(event) {
 
 function todosParticipantes(){
     
-    var valores = sistema.buscarParticipantes();
-    return valores;
+     return sistema.buscarParticipantes().then( valores => {
+        return valores;
+    });
+
 }
 
 
@@ -94,70 +96,73 @@ function remover(event){
 }
 
 function montarTabela() {
-
-    var todos = todosParticipantes();
-    
-    var coluna = [];
-    for (var contador = 0; contador < todos.length; contador++) { 
-        for (var chave in todos[contador]) {
-            if (coluna.indexOf(chave) === -1) {
-                 coluna.push(chave);                
-                
+    return todosParticipantes().then( todos => {
+        var coluna = [];
+        for (var contador = 0; contador < todos.length; contador++) { 
+            for (var chave in todos[contador]) {
+                if (coluna.indexOf(chave) === -1) {
+                    coluna.push(chave);                
+                    
+                }
             }
         }
-    }
 
-    var table = document.createElement("table");
-    table.setAttribute('class', 'table');
+        var table = document.createElement("table");
+        table.setAttribute('class', 'table');
 
-    var tr = table.insertRow(-1);                   
+        var tr = table.insertRow(-1);                   
 
-    for (var contador = 0; contador < coluna.length; contador++) { 
-        var th = document.createElement("th");      
-        th.innerHTML = coluna[contador];
-        tr.appendChild(th);
-    }
+        for (var contador = 0; contador < coluna.length; contador++) { 
+            var th = document.createElement("th");      
+            th.innerHTML = coluna[contador];
+            tr.appendChild(th);
+        }
 
-    if (coluna.length > 0){
-        var th = document.createElement("th");      
-        th.innerHTML = 'Ações';
-        tr.appendChild(th);
-    }
+        if (coluna.length > 0){
+            var th = document.createElement("th");      
+            th.innerHTML = 'Ações';
+            tr.appendChild(th);
+        }
 
-    for (var contador = 0; contador < todos.length; contador++) { 
+        for (var contador = 0; contador < todos.length; contador++) { 
 
-        tr = table.insertRow(-1);
+            tr = table.insertRow(-1);
 
-        for (var segundoContador = 0; segundoContador < coluna.length; segundoContador++) {
+            for (var segundoContador = 0; segundoContador < coluna.length; segundoContador++) {
+                var celulaDaTabela = tr.insertCell(-1);
+                var valor = todos[contador][ coluna[segundoContador] ];
+
+                if ( typeof valor === 'boolean'){
+                    if (valor){
+                        valor = "Sim";
+                    }else {
+                        valor = "Não";
+                    }               
+                }
+
+                celulaDaTabela.innerHTML = valor;
+            }
+
             var celulaDaTabela = tr.insertCell(-1);
-            var valor = todos[contador][ coluna[segundoContador] ];
+            celulaDaTabela.innerHTML = 'Editar';
+            celulaDaTabela.onclick = abrirEditar;
+            celulaDaTabela.id = todos[contador][coluna[0]];
+            celulaDaTabela.style = 'cursor:pointer; text-decoration:underline';
+            
 
-            if ( typeof valor === 'boolean'){
-                if (valor){
-                    valor = "Sim";
-                }else {
-                    valor = "Não";
-                }               
-            }
-
-            celulaDaTabela.innerHTML = valor;
+            var celulaDaTabela = tr.insertCell(-1);
+            celulaDaTabela.innerHTML = 'Excluir';
+            celulaDaTabela.onclick = remover;
+            celulaDaTabela.id = todos[contador][coluna[0]];
+            celulaDaTabela.style = 'cursor:pointer; text-decoration:underline';
         }
 
-        var celulaDaTabela = tr.insertCell(-1);
-        celulaDaTabela.innerHTML = 'Editar';
-        celulaDaTabela.onclick = abrirEditar;
-        celulaDaTabela.id = todos[contador][coluna[0]];
-        celulaDaTabela.style = 'cursor:pointer; text-decoration:underline';
-        
+        var divContainer = document.getElementById("mostrarTabela");
+        divContainer.innerHTML = "";
+        divContainer.appendChild(table);
 
-        var celulaDaTabela = tr.insertCell(-1);
-        celulaDaTabela.innerHTML = 'Excluir';
-        celulaDaTabela.onclick = remover;
-        celulaDaTabela.id = todos[contador][coluna[0]];
-        celulaDaTabela.style = 'cursor:pointer; text-decoration:underline';
-    }
 
-    var divContainer = document.getElementById("mostrarTabela");
-    divContainer.innerHTML = "";
-    divContainer.appendChild(table);
+    });
+    
+    
 }
