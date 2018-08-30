@@ -90,9 +90,12 @@ function editar(){
 }
 
 function remover(event){
-    var email = event.target.id;
-    sistema.removerParticipante(email);
-    montarTabela();
+    var id = event.target.id;
+    return sistema.removerParticipante(id)
+        .then(participante => {
+            montarTabela()
+        });
+    
 }
 
 function montarTabela() {

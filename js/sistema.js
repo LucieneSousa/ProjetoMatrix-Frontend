@@ -43,7 +43,7 @@ function SistemaCadastro() {
     }
 
     function removerParticipante(id) {
-        armazenamentoHttp.remover(id);
+        return armazenamentoHttp.remover(id);
     }
 
     function buscarParticipantesPorNome(nome) {

@@ -87,8 +87,8 @@ function armazenamentoHttp() {
     }*/
     
 	function remover(id){
-		console.log("entrou no axios baby");
-		return axios.delete('http://matrix.avalie.net/api/participantes/'+id);	
+		return axios.delete('http://matrix.avalie.net/api/participantes' + "/" + id)
+		.then(res => console.log(res.data));
 	}
     
 
