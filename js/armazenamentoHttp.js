@@ -1,40 +1,17 @@
 function armazenamentoHttp() {
 
     function adicionar(participante){
-        var arrayJSON = JSON.stringify(participante);
-        var participanteSalvo = undefined;
-		$.ajax({
-			type: "POST",
-			url: 'http://matrix.avalie.net/api/participantes/',
-			contentType: "application/json; charset=utf-8",
-			dataType: "json",
-			data: arrayJSON,
-            async: false,
-            success: function(data){
-				participanteSalvo = data;
-			},
-            error: function(data){
-                console.log("data err", data.responseText);
-            }
-        });	
-        
-        return participanteSalvo;
+		return axios.post('http://matrix.avalie.net/api/participantes/', participante)
+			.then(res => {
+				console.log("res", res)
+				return res.data;
+			})
+			.catch(err => {
+				console.log("errorr", err)
+				throw err.response.data.message; 
+			});
     }
     
-  /*  function todos(){
-		var arrayJSON = [];
-		$.ajax({
-			type: "GET",
-			url: 'http://matrix.avalie.net/api/participantes/',
-			dataType: "json",
-			async: false,
-			success: function(data){
-				arrayJSON = data;
-			}
-		});
-		return arrayJSON;
-    }*/
-
 	function todos(){
 		return axios.get('http://matrix.avalie.net/api/participantes/')
 			.then(res => {

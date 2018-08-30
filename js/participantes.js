@@ -38,10 +38,14 @@ function cadastrar(event) {
     var nota = document.querySelector('#nota').value;
     var sexo = sexoEscolhido();
 
-    var participante = sistema.adicionarParticipante(nome, sobrenome, email, idade, sexo);
-    sistema.adicionarNotaAoParticipante(participante.id, nota);
+    return sistema.adicionarParticipante(nome, sobrenome, email, idade, sexo, nota)        
+                    .then(participante => {
+                        montarTabela()
+                    })
+                    .catch(err => {
+                        alert(err);
+                    });
 
-    montarTabela();
 }
 
 function todosParticipantes(){

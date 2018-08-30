@@ -21,7 +21,7 @@ function SistemaCadastro() {
     //Onde os participantes ficarão armazenados
     var participantes = [];
 
-    function adicionarParticipante(nome, sobrenome, email, idade, sexo) {
+    function adicionarParticipante(nome, sobrenome, email, idade, sexo, nota) {
 
         //implemente o código necessário
         var p = new Participante();
@@ -30,13 +30,7 @@ function SistemaCadastro() {
         p.email = email;
         p.idade = idade;
         p.sexo = sexo;
-
-        var participanteDuplicado = obterParticipante(email);
-
-        if (participanteDuplicado) {
-            throw new Error ("Participante com email duplicado");
-        }
-        
+        p.nota = nota;
 
         return armazenamentoHttp.adicionar(p);
         
