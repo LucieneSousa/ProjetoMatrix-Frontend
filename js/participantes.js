@@ -98,7 +98,7 @@ function editar(){
             $('#myModal').modal('hide');
         })
         .catch(err => {
-            console.log("errrrrrrrrrrrr", err);
+            console.log("error", err);
         });
     
 }

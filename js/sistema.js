@@ -19,7 +19,7 @@ function Participante() {
  */
 function SistemaCadastro() {
     //Onde os participantes ficarão armazenados
-    var participantes = [];
+  //  var participantes = [];
 
     function adicionarParticipante(nome, sobrenome, email, idade, sexo, nota) {
 
@@ -32,6 +32,13 @@ function SistemaCadastro() {
         p.sexo = sexo;
         p.nota = nota;
 
+
+        if (p.nota >= 70) {
+            p.aprovado = true;
+        } else {
+            p.aprovado = false;
+        }
+
         return armazenamentoHttp.adicionar(p);
         
     }
@@ -42,36 +49,22 @@ function SistemaCadastro() {
 
     function buscarParticipantesPorNome(nome) {
         //implemente o código necessário
-        armazenamento.obterParticipantePorNome(nome);
-        function participantePorNome(participantes) {
-            return participantes.nome === nome;
-        }
-        return participantes.filter(participantePorNome);
+        return armazenamentoHttp.obterParticipantePorNome(nome);
     }
 
     function buscarParticipantesPorSexo(sexo) {
         //implemente o código necessário
-        function participantesPorSexo(participantes) {
-            return participantes.sexo === sexo;
-        }
-        return participantes.filter(participantesPorSexo);
+        return armazenamentoHttp.obterParticipantesPorSexo(sexo);
     }
 
     function buscarParticipantesAprovados() {
         //implemente o código necessário
-        function participanteAprovado(participantes) {
-            return participantes.aprovado === true
-        }
-        return participantes.filter(participanteAprovado);
+       return armazenamentoHttp.obterParticipanteAprovado(true);
     }
 
     function buscarParticipantesReprovados() {
         //implemente o código necessário
-        function participanteReprovado(participantes){
-            return participantes.aprovado === false
-        }
-        return participantes.filter(participanteReprovado);
-
+        return armazenamentoHttp.obterParticipanteAprovado(false);
     }
 
     function buscarParticipantes(){
@@ -83,11 +76,6 @@ function SistemaCadastro() {
         return armazenamentoHttp.obter(id);
     }
 
-    //passar o id
-    function adicionarNotaAoParticipante(id, nota) {
-       return  armazenamentoHttp.atualizar(participante);       
-    }
-
     function editarParticipante(id, nome, sobrenome, email, idade, nota, sexo){
         var participante = {};
         participante.id = id;
@@ -97,60 +85,36 @@ function SistemaCadastro() {
         participante.idade = idade;
         participante.nota = nota;
         participante.sexo = sexo;
+        if (participante.nota >= 70) {
+            participante.aprovado = true;
+        } else {
+            participante.aprovado = false;
+        }
         return armazenamentoHttp.atualizar(participante);
 
     }
 
     function obterMediaDasNotasDosParticipantes() {
         //implemente o código necessário
-        var totalDeParticipantes = participantes.length;
-        var MediaDosParticipantes = participantes.reduce(function (somatorioDasNotas, element, index) {
-            return somatorioDasNotas = somatorioDasNotas + participantes[index].nota;
-        }, 0);
-
-        var resultado = MediaDosParticipantes / totalDeParticipantes;
-        return resultado;
+        return armazenamentoHttp.obterMediaDasNotasDosParticipantes();
     }
 
     function obterTotalDeParticipantes() {
         return participantes.length;
     }
 
-    function verificarSeParticipanteEstaAprovado(email) {
+    function verificarSeParticipanteEstaAprovado(id) {
         //implemente o código necessário
-
-        var verificarParticipanteAprovado = participantes.find(function (element, index) {
-            return participantes[index].email === email && participantes[index].aprovado === true;
-        });
-
-        return verificarParticipanteAprovado;
+        return armazenamentoHttp.verificarSeParticipanteEstaAprovado(id);
 
     }
 
     function obterQuantidadeDeParticipantesPorSexo(sexo) {
         //implemente o código necessário
-
-        var somaQuantidadeParticipantePorSexo = participantes.reduce(function (somatorio, element, index) {
-            if (participantes[index].sexo === sexo) {
-                return somatorio + 1;
-            }
-            return somatorio;
-        }, 0);
-
-        return somaQuantidadeParticipantePorSexo;
+        return armazenamentoHttp.obterQuantidadeDeParticipantesPorSexo(sexo);
     }
 
-    function adicionarParticipanteEmDuplicidade(email) {
-        var participantesPorEmail = null;
-        participantes.forEach(function (element, index) {
-            if (participantes[index].email === email) {
-                participantesPorEmail = participantes[index];
-            }
-        })
-
-        return participantesPorEmail;
-    }
-
+    
     return {
         adicionarParticipante,
         removerParticipante,
@@ -159,12 +123,10 @@ function SistemaCadastro() {
         buscarParticipantesAprovados,
         buscarParticipantesReprovados,
         obterParticipante,
-        adicionarNotaAoParticipante,
         obterMediaDasNotasDosParticipantes,
         obterTotalDeParticipantes,
         verificarSeParticipanteEstaAprovado,
         obterQuantidadeDeParticipantesPorSexo,
-        adicionarParticipanteEmDuplicidade,
         buscarParticipantes,
         editarParticipante
     };
