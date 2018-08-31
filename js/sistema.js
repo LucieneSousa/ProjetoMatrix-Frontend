@@ -85,17 +85,7 @@ function SistemaCadastro() {
 
     //passar o id
     function adicionarNotaAoParticipante(id, nota) {
-		 
-        var participante = armazenamentoHttp.obter(id);        
-        participante.nota = nota;
-        if (participante.nota >= 70) {
-            participante.aprovado = true;
-        } else {
-            participante.aprovado = false;
-        }        
-        armazenamentoHttp.atualizar(participante);
-
-        return;
+       return  armazenamentoHttp.atualizar(participante);       
     }
 
     function editarParticipante(id, nome, sobrenome, email, idade, nota, sexo){

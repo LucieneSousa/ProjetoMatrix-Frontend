@@ -23,7 +23,7 @@ function armazenamentoHttp() {
 
 	}
 	
-    function atualizar(participante){
+   /* function atualizar(participante){
         var arrayJSON = JSON.stringify(participante);
         $.ajax({
 			type: "PUT",
@@ -33,9 +33,29 @@ function armazenamentoHttp() {
 			data: arrayJSON,
             async: false,
 		});	
-    }
+	}*/
+	
+	function atualizar(participante){
+		console.log("partic http", participante)
+		return axios.put('http://matrix.avalie.net/api/participantes/' + participante.id, participante)
+			.then(res => {
+				return  res.data;
+			
+			});		
+	}
   
-    
+
+
+	function obter(id){
+		return axios.get('http://matrix.avalie.net/api/participantes/' + id)
+			.then(res => {
+
+				return res.data;
+			});
+	}
+
+
+    /*
     function obter(id){
         var json = undefined;
 		$.ajax({
@@ -48,7 +68,7 @@ function armazenamentoHttp() {
 			}
 		});
 		return json;
-    }
+    }*/
 
     /*function remover(id){        
 		$.ajax({
