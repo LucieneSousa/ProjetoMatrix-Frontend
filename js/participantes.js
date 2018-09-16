@@ -56,7 +56,6 @@ function todosParticipantes(){
 
 }
 
-
 function abrirEditar(event){
     var id = event.target.id;
     
