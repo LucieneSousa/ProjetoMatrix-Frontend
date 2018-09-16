@@ -13,7 +13,10 @@ class Form extends Component {
   }
 
   excluir(id) {
-    console.log("meu click excluir", id);
+    axios
+      .delete(`http://matrix.avalie.net/api/participantes/` + id)
+      .then(res => console.log(res.data))
+      .catch(err => {console.log(err)});
   }
 
   setNome(event) {
@@ -40,34 +43,35 @@ class Form extends Component {
     this.setState({ sexo: event.target.value });
   }
 
+  handleSubmit2 = event => {
+    event.preventDefault();
+
+    const participantes = {
+      nome: this.state.nome,
+      sobrenome: this.state.sobrenome,
+      email: this.state.email,
+      idade: this.state.idade,
+      nota: this.state.nota,
+      sexo: 1
+    };
+
+    axios
+      .post(`http://matrix.avalie.net/api/participantes/`, participantes)
+      .then(res => {
+        console.log("res", res);
+        console.log(res.data);
+      })
+      .catch(error => {
+        console.log("error", error);
+      });
+  };
+
   componentDidMount() {
     axios.get(`http://matrix.avalie.net/api/participantes/`).then(res => {
+      console.log(res);
       const lista = res.data;
       this.setState({ lista }); //vai atualizar a lista que estava vazia
     });
-
-    this.handleSubmit = event => {
-      event.preventDefault();
-
-      const participantes = {
-        nome: this.state.nome,
-        sobrenome: this.state.sobrenome,
-        email: this.state.email,
-        idade: this.state.idade,
-        nota: this.state.nota,
-        sexo: 1
-      };
-
-      axios
-        .post(`http://matrix.avalie.net/api/participantes/`, participantes)
-        .then(res => {
-          console.log("res", res);
-          console.log(res.data);
-        })
-        .catch(error => {
-          console.log("error", error);
-        });
-    };
   }
 
   render() {
@@ -75,7 +79,7 @@ class Form extends Component {
       <div className="container">
         <div className="row">
           <div className="col-sm-12">
-            <form onSubmit={this.handleSubmit}>
+            <form onSubmit={this.handleSubmit2}>
               <div className="form-group">
                 <label for="nome">Nome</label>
                 <input
@@ -176,7 +180,7 @@ class Form extends Component {
           </div>
 
           <div>
-            <table className="table table-hover">
+            <table style={{ marginTop: 10 }} className="table table-hover">
               <thead className="thead-dark">
                 <tr>
                   <th>Id</th>
@@ -211,6 +215,7 @@ class Form extends Component {
                         </button>
 
                         <button
+                          style={{ margin: 10 }}
                           className="btn btn-outline-danger"
                           onClick={e => {
                             this.excluir(participante.id);
