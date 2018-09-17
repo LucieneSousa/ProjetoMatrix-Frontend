@@ -37,13 +37,15 @@ class Form extends Component {
 
   setNota(event) {
     this.setState({ nota: event.target.value });
+    this.setState({aprovado: event.target.value >= 70});
+    
   }
 
   setSexo(event) {
     this.setState({ sexo: event.target.value });
   }
 
-  handleSubmit2 = event => {
+  handleSubmit = event => {
     event.preventDefault();
 
     const participantes = {
@@ -52,8 +54,11 @@ class Form extends Component {
       email: this.state.email,
       idade: this.state.idade,
       nota: this.state.nota,
-      sexo: 1
+      sexo: this.state.sexo,
+      aprovado: this.state.aprovado,
+
     };
+    
 
     axios
       .post(`http://matrix.avalie.net/api/participantes/`, participantes)
@@ -68,8 +73,9 @@ class Form extends Component {
 
   componentDidMount() {
     axios.get(`http://matrix.avalie.net/api/participantes/`).then(res => {
-      console.log(res);
+      
       const lista = res.data;
+      console.log(lista);
       this.setState({ lista }); //vai atualizar a lista que estava vazia
     });
   }
@@ -79,7 +85,7 @@ class Form extends Component {
       <div className="container">
         <div className="row">
           <div className="col-sm-12">
-            <form onSubmit={this.handleSubmit2}>
+            <form onSubmit={this.handleSubmit}>
               <div className="form-group">
                 <label for="nome">Nome</label>
                 <input
@@ -144,14 +150,15 @@ class Form extends Component {
               <div className="form-group">
                 <div className="row">
                   <legend className="col-form-label col-sm-2 pt-0">Sexo</legend>
-                  <div className="col-sm-8">
+                  <div className="col-sm-6">
                     <div className="form-check form-check-inline">
                       <input
                         className="form-check-input"
                         type="radio"
                         name="inlineRadioOptions"
                         id="1"
-                        value={this.state.sexo}
+                        value="1"
+                        onInput={e => {this.setSexo(e);}}
                       />
                       <label className="form-check-label" for="inlineRadio1">
                         Feminino
@@ -163,7 +170,8 @@ class Form extends Component {
                         type="radio"
                         name="inlineRadioOptions"
                         id="2"
-                        value={this.state.sexo}
+                        value="2"
+                        onInput={e => {this.setSexo(e);}}
                       />
                       <label className="form-check-label" for="inlineRadio2">
                         Masculino
@@ -190,6 +198,7 @@ class Form extends Component {
                   <th>Idade</th>
                   <th>Nota</th>
                   <th>Sexo</th>
+                  <th>Aprovado</th>
                   <th>Opções</th>
                 </tr>
               </thead>
@@ -203,7 +212,8 @@ class Form extends Component {
                       <td>{participante.email}</td>
                       <td>{participante.idade}</td>
                       <td>{participante.nota}</td>
-                      <td>{participante.sexo}</td>
+                      <td>{participante.sexo === 1 ? "Fem" : "Masc"}</td>
+                      <td>{participante.aprovado ? 'Sim' : 'Não'}</td>
                       <td>
                         <button
                           className="btn btn-outline-primary"
