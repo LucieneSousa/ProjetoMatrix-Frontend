@@ -4,19 +4,50 @@ import "bootstrap/dist/css/bootstrap.css";
 
 class Form extends Component {
   constructor() {
-    super(); //chama o construtor do Component
-    this.state = { lista: [] }; //inicialmente lista esta com o state vazio
+    super();
+    this.state = { lista: [], editar: false };
   }
 
+  participante = {
+    id: null,
+    nome: null,
+    sobrenome: null,
+    email: null,
+    idade: null,
+    nota: null,
+    sexo: null,
+    aprovado: null
+  };
+
   editar(id) {
-    console.log("meu click editar", id);
+    axios.get(`http://matrix.avalie.net/api/participantes/` + id).then(res => {
+      this.state.editar = true;
+      const participante = res.data;
+
+      participante.sexo === 1
+        ? (this.refs.masculino.checked = true)
+        : (this.refs.feminino.checked = true);
+
+      this.setState({
+        id: participante.id,
+        nome: participante.nome,
+        sobrenome: participante.sobrenome,
+        email: participante.email,
+        idade: participante.idade,
+        nota: participante.nota,
+        sexo: participante.sexo,
+        editar: true
+      });
+    });
   }
 
   excluir(id) {
     axios
       .delete(`http://matrix.avalie.net/api/participantes/` + id)
       .then(res => console.log(res.data))
-      .catch(err => {console.log(err)});
+      .catch(err => {
+        console.log(err);
+      });
   }
 
   setNome(event) {
@@ -37,8 +68,7 @@ class Form extends Component {
 
   setNota(event) {
     this.setState({ nota: event.target.value });
-    this.setState({aprovado: event.target.value >= 70});
-    
+    this.setState({ aprovado: event.target.value >= 70 });
   }
 
   setSexo(event) {
@@ -48,143 +78,190 @@ class Form extends Component {
   handleSubmit = event => {
     event.preventDefault();
 
-    const participantes = {
+    const participante = {
+      id: this.state.id,
       nome: this.state.nome,
       sobrenome: this.state.sobrenome,
       email: this.state.email,
       idade: this.state.idade,
       nota: this.state.nota,
       sexo: this.state.sexo,
-      aprovado: this.state.aprovado,
-
+      aprovado: this.state.aprovado
     };
-    
 
-    axios
-      .post(`http://matrix.avalie.net/api/participantes/`, participantes)
-      .then(res => {
-        console.log("res", res);
-        console.log(res.data);
-      })
-      .catch(error => {
-        console.log("error", error);
-      });
+    if (this.state.editar) {
+      axios
+        .put(
+          `http://matrix.avalie.net/api/participantes/` + participante.id,
+          participante
+        )
+        .then(res => {
+          this.setState({
+            editar: false,
+            id: null,
+            nome: "",
+            sobrenome: "",
+            email: "",
+            idade: "",
+            nota: "",
+            sexo: ""
+          });
+          this.buscar();
+        })
+        .catch(err => {
+          console.log("error PUT", err);
+        });
+    } else {
+      axios
+        .post(`http://matrix.avalie.net/api/participantes/`, participante)
+        .then(res => {
+          console.log("res", res);
+          console.log(res.data);
+        })
+        .catch(err => {
+          console.log("error post", err);
+        });
+    }
   };
 
-  componentDidMount() {
+  buscar() {
     axios.get(`http://matrix.avalie.net/api/participantes/`).then(res => {
-      
       const lista = res.data;
       console.log(lista);
-      this.setState({ lista }); //vai atualizar a lista que estava vazia
+      this.setState({ lista });
     });
+  }
+
+  componentDidMount() {
+    this.buscar();
   }
 
   render() {
     return (
-      <div className="container">
-        <div className="row">
-          <div className="col-sm-12">
-            <form onSubmit={this.handleSubmit}>
-              <div className="form-group">
-                <label for="nome">Nome</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="nome"
-                  value={this.state.nome}
-                  onChange={e => {
-                    this.setNome(e);
-                  }}
-                />
-              </div>
-              <div className="form-group">
-                <label for="sobrenome">Sobrenome</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="sobrenome"
-                  value={this.state.sobrenome}
-                  onChange={e => {
-                    this.setSobrenome(e);
-                  }}
-                />
-              </div>
-              <div className="form-group">
-                <label for="email">Email</label>
-                <input
-                  type="email"
-                  class="form-control"
-                  id="email"
-                  value={this.state.email}
-                  onChange={e => {
-                    this.setEmail(e);
-                  }}
-                />
-              </div>
-              <div className="form-group">
-                <label for="idade">Idade</label>
-                <input
-                  type="number"
-                  class="form-control"
-                  id="idade"
-                  value={this.state.idade}
-                  onChange={e => {
-                    this.setIdade(e);
-                  }}
-                />
-              </div>
-              <div className="form-group">
-                <label for="nota">Nota</label>
-                <input
-                  type="number"
-                  class="form-control"
-                  id="nota"
-                  value={this.state.nota}
-                  onChange={e => {
-                    this.setNota(e);
-                  }}
-                />
-              </div>
+      <div>
+        <h3
+          className="navbar navbar-dark bg-dark justify-content-center"
+          style={{ color: "#fff" }}
+        >
+          Cadastro de Participantes
+        </h3>
+        <div className="container">
+          <div className="row">
+            <div className="col-sm-12">
+              <form onSubmit={e => this.handleSubmit(e)}>
+                <div className="form-group">
+                  <label for="nome">Nome</label>
+                  <input
+                    ref="nome"
+                    type="text"
+                    class="form-control"
+                    id="nome"
+                    value={this.state.nome}
+                    onInput={e => {
+                      this.setNome(e);
+                    }}
+                  />
+                </div>
+                <div className="form-group">
+                  <label for="sobrenome">Sobrenome</label>
+                  <input
+                    ref="sobrenome"
+                    type="text"
+                    class="form-control"
+                    id="sobrenome"
+                    value={this.state.sobrenome}
+                    onInput={e => {
+                      this.setSobrenome(e);
+                    }}
+                  />
+                </div>
+                <div className="form-group">
+                  <label for="email">Email</label>
+                  <input
+                    ref="email"
+                    type="email"
+                    class="form-control"
+                    id="email"
+                    value={this.state.email}
+                    onInput={e => {
+                      this.setEmail(e);
+                    }}
+                  />
+                </div>
+                <div className="form-group">
+                  <label for="idade">Idade</label>
+                  <input
+                    ref="idade"
+                    type="number"
+                    class="form-control"
+                    id="idade"
+                    value={this.state.idade}
+                    onInput={e => {
+                      this.setIdade(e);
+                    }}
+                  />
+                </div>
+                <div className="form-group">
+                  <label for="nota">Nota</label>
+                  <input
+                    ref="nota"
+                    type="number"
+                    class="form-control"
+                    id="nota"
+                    value={this.state.nota}
+                    onInput={e => {
+                      this.setNota(e);
+                    }}
+                  />
+                </div>
 
-              <div className="form-group">
-                <div className="row">
-                  <legend className="col-form-label col-sm-2 pt-0">Sexo</legend>
-                  <div className="col-sm-6">
-                    <div className="form-check form-check-inline">
-                      <input
-                        className="form-check-input"
-                        type="radio"
-                        name="inlineRadioOptions"
-                        id="1"
-                        value="1"
-                        onInput={e => {this.setSexo(e);}}
-                      />
-                      <label className="form-check-label" for="inlineRadio1">
-                        Feminino
-                      </label>
-                    </div>
-                    <div className="form-check form-check-inline">
-                      <input
-                        className="form-check-input"
-                        type="radio"
-                        name="inlineRadioOptions"
-                        id="2"
-                        value="2"
-                        onInput={e => {this.setSexo(e);}}
-                      />
-                      <label className="form-check-label" for="inlineRadio2">
-                        Masculino
-                      </label>
+                <div className="form-group">
+                  <div className="row">
+                    <legend className="col-form-label col-sm-2 pt-0">
+                      Sexo
+                    </legend>
+                    <div className="col-sm-6">
+                      <div className="form-check form-check-inline">
+                        <input
+                          className="form-check-input"
+                          type="radio"
+                          name="inlineRadioOptions"
+                          ref="feminino"
+                          id="Fem"
+                          value="2"
+                          onInput={e => {
+                            this.setSexo(e);
+                          }}
+                        />
+                        <label className="form-check-label" for="inlineRadio1">
+                          Feminino
+                        </label>
+                      </div>
+                      <div className="form-check form-check-inline">
+                        <input
+                          className="form-check-input"
+                          type="radio"
+                          name="inlineRadioOptions"
+                          ref="masculino"
+                          id="Masc"
+                          value="1"
+                          onInput={e => {
+                            this.setSexo(e);
+                          }}
+                        />
+                        <label className="form-check-label" for="inlineRadio2">
+                          Masculino
+                        </label>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
 
-              <button type="submit" className="btn btn-primary">
-                Cadastrar
-              </button>
-            </form>
+                <button type="submit" className="btn btn-outline-primary">
+                  Salvar
+                </button>
+              </form>
+            </div>
           </div>
 
           <div>
@@ -212,8 +289,8 @@ class Form extends Component {
                       <td>{participante.email}</td>
                       <td>{participante.idade}</td>
                       <td>{participante.nota}</td>
-                      <td>{participante.sexo === 1 ? "Fem" : "Masc"}</td>
-                      <td>{participante.aprovado ? 'Sim' : 'Não'}</td>
+                      <td>{participante.sexo === 2 ? "Fem" : "Masc"}</td>
+                      <td>{participante.aprovado ? "Sim" : "Não"}</td>
                       <td>
                         <button
                           className="btn btn-outline-primary"
@@ -230,7 +307,6 @@ class Form extends Component {
                           onClick={e => {
                             this.excluir(participante.id);
                           }}
-                          // onClick={this.excluir.bind(this, participante.id)}
                         >
                           Excluir
                         </button>
